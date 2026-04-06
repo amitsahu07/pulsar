@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: pulsar-monitoring-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+# Free API Settings
+#pulsar:
+#  api-key: "39MYHW33DH62R82E"
+#  bond-symbol: "10year" # Alpha Vantage uses 2year, 10year, etc.
+# d79q689r01qqpmhhjmf0d79q689r01qqpmhhjmfg
+pulsar:
+  alpha-key: "39MYHW33DH62R82E"
+  finnhub-key: "d79q689r01qqpmhhjmf0d79q689r01qqpmhhjmfg"
+  bond-symbol: "10year" # Alpha Vantage uses 2year, 10year, etc.
+  symbols:
+    fx: "OANDA:GBP_USD"
+    oil: "WTI"
+    stock: "AAPL"
+    corp-bond-etf: "IS15.L" # iShares £ Corp Bond 0-5yr
+
+# Enable Prometheus Scrapping
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health
+  metrics:
+    tags:
+      application: pulsar
